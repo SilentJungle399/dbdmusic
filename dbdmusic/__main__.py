@@ -14,6 +14,8 @@ class Bot:
 			raise "You must provide a prefix"
 		else:
 			self.bot = commands.Bot(command_prefix = kwargs["prefix"], intents = self.intents)
+			self.bot.lavalinkpass = kwargs["lavalinkpass"]
+			self.bot.lavalinkport = kwargs["lavalinkport"]
 
 	def connect(self, token):
 		def lavarun():
@@ -48,7 +50,7 @@ class Music(commands.Cog):
 
         if not hasattr(bot, 'lavalink'):
             bot.lavalink = lavalink.Client(bot.user.id)
-            bot.lavalink.add_node("localhost", 6969, 'testing', 'na', 'default-node')
+            bot.lavalink.add_node("0.0.0.0", self.bot.lavalinkport, self.bot.lavalinkpass, 'na', 'default-node')
             bot.add_listener(bot.lavalink.voice_update_handler, 'on_socket_response')
 
         lavalink.add_event_hook(self.track_hook)
